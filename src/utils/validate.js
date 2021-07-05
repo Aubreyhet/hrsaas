@@ -85,3 +85,10 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+
+/**
+ * 校验手机号规则
+ */
+export function validMobile(val) {
+  return /^1[3-9]\d{9}$/.test(val)
+}
