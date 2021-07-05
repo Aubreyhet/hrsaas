@@ -15,8 +15,10 @@ import store from './store'
 import router from './router'
 
 import './icons' // icon
-import './permission' // permission control
+import './permission' // permission control 权限拦截
 import './utils/error-log' // error log
+// 加载自定义指令模块
+import * as directive from '@/directive'
 
 import * as filters from './filters' // global filters
 
@@ -32,6 +34,10 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
+// 自定义指定注册
+Object.keys(directive).forEach(key => {
+  Vue.directive(key, directive[key])
+})
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

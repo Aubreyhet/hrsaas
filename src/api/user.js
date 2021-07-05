@@ -13,8 +13,26 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+/**
+ * 获取用户信息接口
+ * @param {*} token
+ * @returns
+ */
+export function getUserInfo() {
   return request({
+    url: '/sys/profile',
+    method: 'POST'
+  })
+}
+
+/**
+ * 根据用户id获取用户头像/详情 这里拿到了用户的详细信息
+ * 默认get请求
+ * @returns string
+ */
+export function getUserAllInfo(id) {
+  return request({
+    url: `/sys/user/${id}`
   })
 }
 
