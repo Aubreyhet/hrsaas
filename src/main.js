@@ -30,10 +30,6 @@ import * as filters from './filters' // global filters
  * Currently MockJs will be used in the production environment,
  * please remove it before going online ! ! !
  */
-if (process.env.NODE_ENV === 'production') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
-}
 // 自定义指定注册
 Object.keys(directive).forEach(key => {
   Vue.directive(key, directive[key])
