@@ -5,35 +5,15 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import approvalsRouter from './modules/approvals'
+import attendancesRouter from './modules/attendances'
+import departmentsRouter from './modules/departments'
+import employeesRouter from './modules/employees'
+import permissionRouter from './modules/permission'
+import salarysRouter from './modules/salarys'
+import settingRouter from './modules/setting'
+import socialRouter from './modules/social'
 
-/* Router Modules */
-
-/**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
- *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
- * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    noCache: true                if set true, the page will no be cached(default is false)
-    affix: true                  if set true, the tag will affix in the tags-view
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
- */
-
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
 export const constantRoutes = [
   {
     path: '/login',
@@ -54,7 +34,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -63,10 +43,22 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+// 定义静态路由
+export const asyncRoutes = [
+  approvalsRouter,
+  attendancesRouter,
+  departmentsRouter,
+  employeesRouter,
+  permissionRouter,
+  salarysRouter,
+  settingRouter,
+  socialRouter
+]
+
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: [...constantRoutes, ...asyncRoutes]
 })
 
 const router = createRouter()
