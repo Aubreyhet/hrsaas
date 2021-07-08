@@ -355,3 +355,20 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+/**
+ * 递归算法 将数组解构的数据转换成树形结构的数据
+ */
+export function tranListToTree(arr, rootValue) {
+  var newArr = []
+  arr.forEach(item => {
+    if (item.pid === rootValue) {
+      const children = tranListToTree(arr, item.id)
+      if (children.length) {
+        item.children = children
+      }
+      newArr.push(item)
+    }
+  })
+  return newArr
+}

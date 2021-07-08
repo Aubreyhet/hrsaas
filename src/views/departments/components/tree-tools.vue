@@ -8,12 +8,14 @@
       <el-row type="flex" justify="end">
         <el-col>{{ treeNode.manager }}</el-col>
         <el-col>
-          <el-dropdown>
+          <el-dropdown @command="handelFun">
             <span class="el-dropdown-link">
               操作<i class="el-icon-arrow-down" />
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>添加子部门</el-dropdown-item>
+              <el-dropdown-item command="add">添加子部门</el-dropdown-item>
+              <el-dropdown-item command="edit">编辑子部门</el-dropdown-item>
+              <el-dropdown-item command="del">删除子部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -25,7 +27,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等
 // 例如：import 《组件名称》 from '《组件路径》'
-
+import { delDepartments } from '@/api/departments'
 export default {
   name: '',
 
@@ -36,6 +38,10 @@ export default {
     treeNode: {
       type: Object,
       required: true
+    },
+    isRoot: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -71,7 +77,22 @@ export default {
   activated() {}, // 如果页面有keep-alive缓存功能，这个函数会触发
 
   // 方法集合
-  methods: {}
+  methods: {
+    async handelFun(type) {
+      if (type === 'add') {
+        this.$emit('addDeparts', this.treeNode)
+      } else if (type === 'edit') {
+        alert('edit')
+      } else {
+        this.$confirm('确定删除该数据吗?').then(() => {
+          return delDepartments(this.treeNode.id)
+        }).then(() => {
+          this.$emit('delDepart')
+          this.$message.success('删除数据成功')
+        })
+      }
+    }
+  }
 }
 </script>
 
