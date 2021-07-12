@@ -39,6 +39,7 @@ module.exports = {
     // 配置反向代理
     proxy: {
       '/api': {
+        // target: 'http://renzi.hm.vvhan.com',
         target: 'http://47.115.220.142:3002',
         changeOrigin: true
       }

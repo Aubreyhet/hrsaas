@@ -3,13 +3,14 @@
     <div class="app-container">
       <el-card class="tree-card">
         <!-- 头部 -->
-        <TreeTools :tree-node="compony" @addDeparts="addDeparts" />
+        <TreeTools :tree-node="compony" :is-root="true" @addDeparts="addDeparts" />
         <!-- 树形解构 静态 -->
         <el-tree :data="list" :default-expand-all="true" props="defaltProp">
-          <TreeTools slot-scope="{ data }" :tree-node="data" @delDepart="getDepartmentsFn" @addDeparts="addDeparts" />
+          <TreeTools slot-scope="{ data }" :tree-node="data" @delDepart="getDepartmentsFn" @addDeparts="addDeparts" @editDeparts="editDeparts" />
         </el-tree>
       </el-card>
-      <AddDepts :is-show-dialog="isShowDialog" />
+      <!-- 添加部门的弹出框 -->
+      <AddDepts ref="addDepart" :is-show-dialog.sync="isShowDialog" :tree-node="node" @addDepart="getDepartmentsFn" />
     </div>
   </div>
 </template>
@@ -38,12 +39,18 @@ export default {
   methods: {
     async getDepartmentsFn() {
       const result = await getDepartments()
-      this.compony = { name: result.companyName, magager: result.companyManage }
+      this.compony = { name: result.companyName, magager: result.companyManage, id: '' }
       this.list = tranListToTree(result.depts, '')
     },
     addDeparts(pNode) {
       this.isShowDialog = true
       this.node = pNode
+    },
+    // 编辑部门信息
+    async editDeparts(node) {
+      this.node = node
+      this.isShowDialog = true
+      this.$refs.addDepart.getSimpleDepartment(node.id)
     }
   }
 }

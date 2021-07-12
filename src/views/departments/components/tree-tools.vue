@@ -14,8 +14,8 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="add">添加子部门</el-dropdown-item>
-              <el-dropdown-item command="edit">编辑子部门</el-dropdown-item>
-              <el-dropdown-item command="del">删除子部门</el-dropdown-item>
+              <el-dropdown-item v-if="!isRoot" command="edit">编辑部门</el-dropdown-item>
+              <el-dropdown-item v-if="!isRoot" command="del">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -82,13 +82,13 @@ export default {
       if (type === 'add') {
         this.$emit('addDeparts', this.treeNode)
       } else if (type === 'edit') {
-        alert('edit')
+        this.$emit('editDeparts', this.treeNode)
       } else {
         this.$confirm('确定删除该数据吗?').then(() => {
           return delDepartments(this.treeNode.id)
         }).then(() => {
           this.$emit('delDepart')
-          this.$message.success('删除数据成功')
+          this.$message.success('删除部门成功')
         })
       }
     }
