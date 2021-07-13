@@ -45,6 +45,18 @@ export function getRoleById(id) {
 export function editRoleById(data) {
   return request({
     method: 'PUT',
-    url: `/sys/role/${data.id}`
+    url: `/sys/role/${data.id}`,
+    data
+  })
+}
+
+/**
+ * 新增角色接口
+ */
+export function addRole(data) {
+  return request({
+    method: 'POST',
+    url: '/sys/role',
+    data
   })
 }

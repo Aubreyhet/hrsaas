@@ -9,6 +9,7 @@
                 type="primary"
                 icon="el-icon-plus"
                 size="small"
+                @click="addRole"
               >
                 新增角色
               </el-button>
@@ -43,7 +44,7 @@
               >
                 <template slot-scope="{ row }">
                   <el-button size="small" type="success">分配权限</el-button>
-                  <el-button size="small" type="primary">编辑</el-button>
+                  <el-button size="small" type="primary" @click="editRole(row.id)">编辑</el-button>
                   <el-button size="small" type="danger" @click="delRoleById(row.id)">删除</el-button>
                 </template>
               </el-table-column>
@@ -51,7 +52,7 @@
             <el-row type="flex" justify="center" align="middle" style="height:60px">
               <el-pagination
                 layout="prev, pager, next"
-                :total="total"
+                :total="page.total"
                 :page-size="page.pagesize"
                 :current-page="page.page"
                 @current-change="changePage"
@@ -86,14 +87,14 @@
         </el-tabs>
       </el-card>
     </div>
-    <!-- 编剧角色弹层 -->
-    <el-dialog title="编辑角色" :visible="showEditDialog">
-      <el-form :model="roleFormData" :rules="rules">
-        <el-form-item>
-          <el-input />
+    <!-- 编辑角色弹层 -->
+    <el-dialog title="编辑角色" :visible="showEditDialog" @close="btnCancel">
+      <el-form ref="roleForm" :model="roleFormData" :rules="rules" label-width="120px">
+        <el-form-item label="角色名称" prop="name">
+          <el-input v-model.trim="roleFormData.name" />
         </el-form-item>
-        <el-form-item>
-          <el-input />
+        <el-form-item label="角色描述">
+          <el-input v-model="roleFormData.description" />
         </el-form-item>
       </el-form>
       <el-row slot="footer" type="flex" justify="center">
@@ -107,7 +108,7 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, delRoleById } from '@/api/setting'
+import { getRoleList, getCompanyInfo, delRoleById, getRoleById, editRoleById, addRole } from '@/api/setting'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -120,7 +121,10 @@ export default {
       },
       formData: {},
       showEditDialog: false,
-      roleFormData: {},
+      roleFormData: {
+        name: '',
+        description: ''
+      },
       rules: { name: [{ required: true, message: '名称必填', trigger: 'blur' }] }
     }
   },
@@ -153,6 +157,40 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    btnCancel() {
+      this.showEditDialog = false
+      this.$refs.roleForm.resetFields()
+      this.roleFormData = {
+        name: '',
+        describe: ''
+      }
+    },
+    async editRole(id) {
+      this.roleFormData = await getRoleById(id)
+      this.showEditDialog = true
+      console.log(this.roleFormData)
+    },
+    async editOk() {
+      try {
+        await this.$refs.roleForm.validate()
+        // 校验成功之后调用接口 如果有id 调用编辑 否则调用新增
+        if (this.roleFormData.id) {
+          await editRoleById(this.roleFormData)
+        } else {
+          await addRole(this.roleFormData)
+        }
+        this.showEditDialog = false
+        this.$refs.roleForm.resetFields()
+        this.getRoleList()
+        this.$message.success('操作数据成功')
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    // 点击新增按钮
+    addRole() {
+      this.showEditDialog = true
     }
   }
 }
