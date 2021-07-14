@@ -4,6 +4,7 @@
       <h2>
         审批
       </h2>
+      <UploadExcel />
     </div>
   </div>
 </template>
