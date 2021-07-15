@@ -115,7 +115,7 @@ export default {
         timeOfEntry: '',
         correctionTime: ''
       }
-      this.$refs.formData.resetField()
+      this.$refs.formData.resetFields()
     }
   }
 }

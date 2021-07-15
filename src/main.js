@@ -19,20 +19,11 @@ import router from './router'
 
 import './icons' // icon
 import './permission' // permission control 权限拦截
-import './utils/error-log' // error log
 // 加载自定义指令模块
 import * as directive from '@/directive'
 
 import * as filters from './filters' // global filters
 
-/**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online ! ! !
- */
 // 自定义指定注册
 Object.keys(directive).forEach(key => {
   Vue.directive(key, directive[key])
