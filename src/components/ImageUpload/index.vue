@@ -15,6 +15,7 @@
     >
       <i class="el-icon-plus" />
     </el-upload>
+    <el-progress v-show="isShowPercent" :percentage="percentage" style="width:180px" />
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
@@ -34,7 +35,9 @@ export default {
       fileList: [],
       dialogImageUrl: '',
       dialogVisible: false,
-      currentFileUid: null
+      currentFileUid: null,
+      percentage: 0,
+      isShowPercent: false
     }
   },
   computed: {
@@ -70,6 +73,7 @@ export default {
         return false
       }
       this.currentFileUid = file.uid
+      this.isShowPercent = true
       return true
     },
     // 上传文件
@@ -80,7 +84,11 @@ export default {
           Region: 'ap-nanjing', // 地域
           Key: params.file.name, // 文件名
           Body: params.file,
-          StorageClass: 'STANDARD'
+          StorageClass: 'STANDARD',
+          onProgress: (params) => {
+            console.log(params)
+            this.percentage = params.percent * 100
+          }
         }, (err, data) => {
           if (!err && data.statusCode === 200) {
             console.log(data)
@@ -91,8 +99,10 @@ export default {
               }
               return item
             })
-          } else {
-            console.log(err)
+            setTimeout(() => {
+              this.percentage = 0
+              this.isShowPercent = false
+            }, 1000)
           }
         })
       }
