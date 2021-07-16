@@ -283,6 +283,10 @@
 
 <script>
 import EmployeeEnum from '@/api/constant/employees'
+// 导入获取用户基本信息方法
+import { getUserAllInfo } from '@/api/user'
+// 导入员工相关api
+import { getPersonalDetail, saveUserDetailById, updatePersonal } from '@/api/employees'
 
 export default {
   data() {
@@ -353,6 +357,32 @@ export default {
         proofOfDepartureOfFormerCompany: '', // 前公司离职证明
         remarks: '' // 备注
       }
+    }
+  },
+  created() {
+    // 调用获取用户基本信息方法
+    this.getUserinfo()
+    // 调用获取用户基础信息方法
+    this.getUserAllInfo()
+  },
+  methods: {
+    // 定义获取用户基本信息方法
+    async getUserinfo() {
+      this.userInfo = await getUserAllInfo(this.userId)
+    },
+    // 定义获取用户基础信息方法
+    async getUserAllInfo() {
+      this.formData = await getPersonalDetail(this.userId)
+    },
+    // 定义保存用户基本信息方法
+    async saveUser() {
+      await saveUserDetailById(this.userInfo)
+      this.$message.success('员工基本信息保存成功')
+    },
+    // 定义保存用户基础信息方法
+    async savePersonal() {
+      await updatePersonal(this.formData)
+      this.$message.success('员工基础信息保存成功')
     }
   }
 }

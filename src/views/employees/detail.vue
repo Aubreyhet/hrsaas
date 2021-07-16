@@ -20,7 +20,7 @@
             <component :is="userInfoCom" />
           </el-tab-pane>
           <el-tab-pane label="岗位信息">
-            <h3>456</h3>
+            <component :is="jobInfoCom" />
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -32,13 +32,16 @@
 import { saveUserDetailById } from '@/api/employees'
 import { getUserAllInfo } from '@/api/user'
 import UserInfo from './components/user-info.vue'
+import JobInfo from './components/job-info.vue'
 export default {
   components: {
-    UserInfo
+    UserInfo,
+    JobInfo
   },
   data() {
     return {
       userInfoCom: 'UserInfo',
+      jobInfoCom: 'JobInfo',
       userId: this.$route.params.id,
       userInfo: {
         username: '',

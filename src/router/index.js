@@ -52,7 +52,6 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-// 定义静态路由
 export const asyncRoutes = [
   approvalsRouter,
   attendancesRouter,
