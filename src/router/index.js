@@ -13,6 +13,7 @@ import permissionRouter from './modules/permission'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import user from './modules/user'
 
 export const constantRoutes = [
   {
@@ -46,7 +47,8 @@ export const constantRoutes = [
       path: '',
       component: () => import('@/views/import')
     }]
-  }
+  },
+  user
 
   // 404 page must be placed at the end !!!
 ]
