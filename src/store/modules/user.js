@@ -4,6 +4,8 @@ import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 // 导入登录接口
 import { login, getUserInfo, getUserAllInfo } from '@/api/user'
 
+import { resetRouter } from '@/router'
+
 /**
  * 用户模块的vuex
  */
@@ -55,6 +57,11 @@ const actions = {
   logout(context) {
     context.commit('removeToken')
     context.commit('removeUserInfo')
+    // 重置路由 两条线
+    // 路由表重置
+    resetRouter()
+    // vuex中重置 调用了兄弟模块中moutations中的方法进行重置
+    context.commit('permission/setRouter', [], { root: true })
   }
 }
 export default {

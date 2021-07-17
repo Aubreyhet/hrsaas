@@ -103,3 +103,16 @@ export function updateJob(data) {
   })
 }
 
+/**
+ * 给员工分配角色
+ * @param {Obj} data 用户id 和角色数组
+ * @returns 请求状态
+ */
+export function setRoles(data) {
+  return request({
+    method: 'PUT',
+    url: '/sys/user/assignRoles',
+    data
+  })
+}
+

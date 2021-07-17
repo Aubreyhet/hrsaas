@@ -25,9 +25,16 @@ router.beforeEach(async(to, from, next) => {
       // 如果是去其他页面 那就直接放行 然后再判断是否存在用户信息
       if (!store.getters.userId) {
         // 如果用户信息不存在 那就调用异步方法获取用户信息 然后放行
-        await store.dispatch('user/getUserInfo')
+        const { roles } = await store.dispatch('user/getUserInfo')
+        // 筛选路由 返回动态路由表接一下
+        const resAsycnRouter = await store.dispatch('permission/filterRouter', roles.menus)
+        // 接一下拿到动态路由表之后使用router 的addrouter 方法将路由添加进路由表中 将404页面放到动态路由的最后边
+        router.addRoutes([...resAsycnRouter, { path: '*', redirect: '/404', hidden: true }])
+        // 最后要使用原地跳转一次才行
+        next(to.path)
+      } else {
+        next()
       }
-      next()
     }
   } else {
     // 如果没有token 那就进行判断要去那个页面 根据白名单进行拦截

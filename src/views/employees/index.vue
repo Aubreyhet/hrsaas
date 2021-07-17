@@ -31,7 +31,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="setRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="delEmployees(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -44,6 +44,8 @@
     </div>
     <!-- 显示添加员工的弹框 -->
     <AddEmployee :show-add-dialog.sync="showAddDialog" />
+    <!-- 显示角色分配的弹框 -->
+    <SetRole ref="roleDialog" :is-show-dialog.sync="showRoleDialog" :user-id="userId" />
   </div>
 </template>
 
@@ -51,12 +53,15 @@
 import { getEmployees, delEmployeesById } from '@/api/employees'
 import EmployeesEnum from '@/api/constant/employees'
 import AddEmployee from './components/add-employee.vue'
+import SetRole from './components/assign-role.vue'
 export default {
   components: {
-    AddEmployee
+    AddEmployee,
+    SetRole
   },
   data() {
     return {
+      userId: '',
       list: [],
       page: {
         total: 0,
@@ -64,7 +69,8 @@ export default {
         size: 10
       },
       loading: false,
-      showAddDialog: false
+      showAddDialog: false,
+      showRoleDialog: false
     }
   },
   created() {
@@ -131,6 +137,13 @@ export default {
           return item[headers[key]]
         })
       })
+    },
+    // 设置用户角色
+    async setRole(id) {
+      this.userId = id
+      // 调用自组件方法 获取该用户的角色信息
+      await this.$refs.roleDialog.getUserRole(id)
+      this.showRoleDialog = true
     }
   }
 }
