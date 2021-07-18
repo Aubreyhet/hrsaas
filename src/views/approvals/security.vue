@@ -69,7 +69,7 @@ import {
   getFlowList,
   suspend
 } from '@/api/approvals'
-import { importFilexml } from '@/filters'
+// import { importFilexml } from '@/filters'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'UsersTableIndex',
@@ -145,7 +145,8 @@ export default {
       this.$message.error(obj)
     },
     beforeUpload(file, obj) {
-      importFilexml(file, obj, this.typeTip)
+      // importFilexml(file, obj, this.typeTip)
+      console.log(obj)
     },
     // 上传错误
     uploadFail(err, file, fileList) {

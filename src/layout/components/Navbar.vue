@@ -11,7 +11,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-imgerror="baseImg" :src="staffPhoto" class="user-avatar">
-          <span class="name">{{ username }}</span>
+          <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color:#fff" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -34,21 +34,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-// import ErrorLog from '@/components/ErrorLog'
-// import Screenfull from '@/components/Screenfull'
-// import SizeSelect from '@/components/SizeSelect'
-// import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
-    // Breadcrumb,
     Hamburger
-    // ErrorLog,
-    // Screenfull,
-    // SizeSelect,
-    // Search
   },
   data() {
     return {
@@ -59,7 +49,7 @@ export default {
     ...mapGetters([
       'sidebar',
       'device',
-      'username',
+      'name',
       'staffPhoto'
     ])
   },

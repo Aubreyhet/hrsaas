@@ -62,19 +62,16 @@
       <br>
       <br>
       <br>
-      <social-sign />
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { validMobile } from '@/utils/validate'
-import SocialSign from './components/SocialSignin'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
-  components: { SocialSign },
   data() {
     const validateMobile = (rule, value, callback) => {
       if (!validMobile(value)) {

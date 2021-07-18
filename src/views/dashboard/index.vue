@@ -5,11 +5,11 @@
       <div>
         <div class="fl headL">
           <div class="headImg">
-            <img src="@/assets/common/head.jpg">
+            <img v-imgerror="defaultImg" :src="staffPhoto">
           </div>
           <div class="headInfoTip">
-            <p class="firstChild">早安，管理员，祝你开心每一天！</p>
-            <p class="lastChild">早安，管理员，祝你开心每一天！</p>
+            <p class="firstChild">早安，{{ name }}，祝你开心每一天！</p>
+            <p class="lastChild">{{ name }} | {{ companyName }} - {{ departmentName }}</p>
           </div>
         </div>
         <div class="fr" />
@@ -23,6 +23,7 @@
         <el-card class="box-card">
           <div slot="header" class="header">
             <span>工作日历</span>
+            <WorkCalendar />
           </div>
         <!-- 放置日历组件 -->
         </el-card>
@@ -120,12 +121,23 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import WorkCalendar from './components/work-calendar.vue'
 export default {
   name: 'Dashboard',
+  components: {
+    WorkCalendar
+  },
+  data() {
+    return {
+      defaultImg: require('@/assets/common/head.jpg')
+    }
+  },
   computed: {
     ...mapGetters([
-      'name'
+      'name',
+      'staffPhoto',
+      'companyName', // 公司名称
+      'departmentName' // 部门名称
     ])
   }
 }
