@@ -34,7 +34,7 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
+        name: 'dashboard',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
@@ -65,7 +65,8 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
+  base: '/hr/',
   scrollBehavior: () => ({ y: 0 }),
   routes: [...constantRoutes]
 })

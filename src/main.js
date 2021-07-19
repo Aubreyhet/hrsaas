@@ -16,6 +16,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
+import i18n from '@/lang'
 
 import './icons' // icon
 import './permission' // permission control 权限拦截
@@ -37,6 +38,10 @@ Vue.use(Element, {
 // 注册全局自定义组件
 Vue.use(Components)
 
+// 设置element为当前的语言
+Vue.use(Element, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 // register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -48,5 +53,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })
