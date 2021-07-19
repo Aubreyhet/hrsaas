@@ -9,13 +9,13 @@
     <% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
       <link rel="stylesheet" href="<%=css%>">
     <% } %>
-    <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
-      <script src="<%=js%>"></script>
-    <% } %>
     <title><%= webpackConfig.name %></title>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+      <script src="<%=js%>"></script>
+    <% } %>
   </body>
 </html>
